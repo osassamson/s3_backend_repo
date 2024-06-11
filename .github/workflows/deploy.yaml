@@ -41,7 +41,7 @@ jobs:
       uses: jfrog/setup-jfrog-cli@v3
     - name: config
       run: |
-        export SERVER_ID="techsam"
+        export SERVER_ID="deploy"
         jf c add $SERVER_ID --url=$JF_URL --access-token=$JF_ACCESS_TOKEN --interactive=false
         jf tfc --server-id-deploy $SERVER_ID --repo deploy terraform-local-modules
         jf tf p --namespace=${JFROG_NAMESPACE} --provider=local --tag=$(cat VERSION.txt)
