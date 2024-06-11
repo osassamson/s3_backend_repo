@@ -42,9 +42,8 @@ jobs:
     - name: config
       run: |
         export SERVER_ID="techsam"
-        jf c add $SERVER_ID_url=$JF_URL --access-token=$JF_ACCESS_TOKEN --interactive=false
-        jf tfc --server-id-deploy $SERVER_ID --repo deploy terraform-local-moudules
+        jf c add $SERVER_ID --url=$JF_URL --access-token=$JF_ACCESS_TOKEN --interactive=false
+        jf tfc --server-id-deploy $SERVER_ID --repo deploy terraform-local-modules
         jf tf p --namespace=${JFROG_NAMESPACE} --provider=local --tag=$(cat VERSION.txt)
-      
       
   
