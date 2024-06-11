@@ -1,4 +1,4 @@
-name: deploy
+name: upload
 
 on:
   push:
@@ -26,19 +26,19 @@ jobs:
         with:
           filters: |
             s3:
-            - './s3/VERSION.TXT'
-upload:
-  needs: changes
-  if: ${{ needs.changes.output.src == 'true' }}
-  runs-on: ubuntu-latest
-  defaults:
-    run:
-      working-directory: ./s3
-  steps:
+            - './s3/VERSION.txt'
+  upload:
+    needs: changes
+    if: ${{ needs.changes.output.src == 'true' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./s3
+    steps:
     - name: checkout
       uses: actions/checkout@v4
     - name: setup
-      usws: jfrog/setup-jfrog-cli@v3
+      uses: jfrog/setup-jfrog-cli@v3
     - name: config
       run: |
         export SERVER_ID="samson"
