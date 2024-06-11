@@ -10,13 +10,13 @@ env:
   JF_ACCESS_TOKEN: ${{ secrets.TOKEN }}
 
 jobs:
-  #changes:
-   # runs-on: ubuntu_latest
-    #outputs:
-     # src: ${{ steps.changes.outputs.s3 }}
-    #defaults:
-     # run:
-      # working-directory: ./s3
+  changes:
+    runs-on: ubuntu_latest
+    outputs:
+      src: ${{ steps.changes.outputs.s3 }}
+    defaults:
+      run:
+       working-directory: ./s3
     steps:
       - name: checkout
         uses: actions/checkout@4
@@ -29,7 +29,7 @@ jobs:
             - './s3/VERSION.txt'
   upload:
     needs: changes
-    if: ${{ needs.changes.output.src == 'true' }}
+    #if: ${{ needs.changes.output.src == 'true' }}
     runs-on: ubuntu-latest
     defaults:
       run:
