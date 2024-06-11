@@ -19,7 +19,7 @@ jobs:
        working-directory: ./s3
     steps:
       - name: checkout
-        uses: actions/checkout@4
+        uses: actions/checkout@v4
       - name: check
         uses: dorny/paths-filters@v3
         id: changes
