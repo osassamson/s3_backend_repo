@@ -11,7 +11,7 @@ env:
 
 jobs:
   changes:
-    runs-on: ubuntu_latest
+    runs-on: ubuntu-latest
     outputs:
       src: ${{ steps.changes.outputs.s3 }}
     defaults:
