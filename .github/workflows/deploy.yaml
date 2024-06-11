@@ -6,6 +6,45 @@ on:
       main
 env:
   JFROG_NAMESPACE: "cloudops"
-  JF_URL: $
+  JF_URL: ${{ secrets.JF_URL }}
+  JF_ACCESS_TOKEN: ${{ secrets.TOKEN }}
+
+jobs:
+  changes:
+    runs-on: ubuntu_latest
+    outputs:
+      src: ${{ steps.changes.outputs.s3 }}
+    defaults:
+      run:
+       working-directory: ./s3
+    steps:
+      - name: checkout
+        uses: actions/checkout@4
+      - name: check
+        uses: dorny/paths-filters@v3
+        id: changes
+        with:
+          filters: |
+            s3:
+            - './s3/VERSION.TXT'
+upload:
+  needs: changes
+  if: ${{ needs.changes.output.src == 'true' }}
+  runs-on: ubuntu-latest
+  defaults:
+    run:
+      working-directory: ./s3
+  steps:
+    - name: checkout
+      uses: actions/checkout@v4
+    - name: setup
+      usws: jfrog/setup-jfrog-cli@v3
+    - name: config
+      run: |
+        export SERVER_ID="samson"
+        jf c add $SERVER_ID __url=$JF_URL --access-token=$JF_ACCESS_TOKEN --interactive=false
+        jf tfc --server-id-deploy $SERVER_ID --repo deploy terraform-local-moudules
+        jf tf p --namespace=${JFROG_NAMESPACE} --provider=local --tag=$(cat VERSION.txt)
+      
       
   
